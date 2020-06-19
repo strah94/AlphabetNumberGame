@@ -1,0 +1,67 @@
+
+
+body {
+  background-color: #81a69b;
+  background-image: url(http://static.frontendmasters.com/resources/2019-05-02-complete-intro-react-v5/image-background.png);
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.radioFields{
+
+ display: flex;
+ flex-direction: row;
+
+}
+.score{
+
+  padding-left:250px;
+}
+
+.glavniPrikaz{
+
+ display: flex;
+ flex-direction: row;
+
+}
+/* .containerBrojeva{
+  max-width: 200px;
+  display:flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+
+} */
+
+.letters{
+  max-width: 100px;
+margin-left: 20px;
+display: flex;
+flex-direction: inline
+
+
+}
+
+.prikazBrojeva{
+ display: flex;
+ flex-direction: row-row-reverse;
+
+}
+
+.pojedinacanBroj{
+  font-size: 20px;
+  font-family: serif;
+  padding-top: 150px;
+   margin: 10px;
+   margin-left: 15px;
+
+
+}
+.settings{
+
+ margin-left: 500px;
+
+}
+/* .cardScore {
+   text-align: right;
+
+} */
