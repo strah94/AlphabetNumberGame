@@ -1,6 +1,11 @@
-import React,{useState} from "react";
+import React, { useState,useContext } from "react";
+import DataContext from  "../../DataContext/DataContext.js";
+
 
 const Letters = () => {
+
+
+
   const [letters, setLetters] = useState([
     { id: 1, letter: "A", color: "" },
     { id: 2, letter: "B", color: "" },
@@ -30,23 +35,16 @@ const Letters = () => {
     { id: 26, letter: "Z", color: "" }
   ]);
 
-  const glavniPrikaz = letters.map(item=>(
-
-     <div className="pojedinacanBroj">
-     {`${item.letter} (${item.id})`}
-     </div>
-
-  )
-
-  )
 
 
-  return (
 
 
-  glavniPrikaz
 
-   )
+  const glavniPrikaz = letters.map(item => (
+    <div className="pojedinacanBroj">{`${item.letter} (${item.id})`}</div>
+  ));
+
+  return glavniPrikaz;
 };
 
 export default Letters;
