@@ -62120,7 +62120,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DataContext_DataContext_js__WEBPACK_IMPORTED_MODULE_5__["default"].Provider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: ""
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "glavniPrikaz"
@@ -62128,9 +62128,9 @@ function App() {
     className: "settings"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Settings_Settings_js__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "score"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Score_Score_js__WEBPACK_IMPORTED_MODULE_2__["default"], null))), "// ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Score_Score_js__WEBPACK_IMPORTED_MODULE_2__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "letters"
-  }, "// ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Letters_Letters_js__WEBPACK_IMPORTED_MODULE_4__["default"], null), "// ")));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Letters_Letters_js__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -62357,17 +62357,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "reset":
-      return state;
-      break;
-
-    default:
-      return state;
-  }
-}
-
 var Settings = function Settings() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("easy"),
       _useState2 = _slicedToArray(_useState, 2),
@@ -62408,11 +62397,6 @@ var Settings = function Settings() {
       _useState16 = _slicedToArray(_useState15, 2),
       izabranaVrednost = _useState16[0],
       setIzabranaVrednost = _useState16[1];
-
-  var _useReducer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useReducer"])(reducer, 0),
-      _useReducer2 = _slicedToArray(_useReducer, 2),
-      emptyState = _useReducer2[0],
-      dispatch = _useReducer2[1];
 
   var dugme = started ? "Stop Game" : "Start Game";
 
@@ -62531,24 +62515,51 @@ var Settings = function Settings() {
     if (started === true) {
       console.log("NijePocela");
     } else {
-      console.log("Pocela je"); // startGame(numbers);
-
-      if (difficulty === "easy") {
-        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
-      } else if (difficulty === "medium") {
-        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
-      } else if (difficulty === "hard") {
-        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
-      }
-
-      console.log(nizVrednosti);
+      console.log("Pocela je");
     }
   };
+
+  useInterval(function () {
+    if (difficulty === "easy" && brojPokusaja > 0) {
+      setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+    }
+  }, 5000);
+  useInterval(function () {
+    if (difficulty === "medium" && brojPokusaja > 0) {
+      setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+    }
+  }, 3500);
+  useInterval(function () {
+    if (difficulty === "hard" && brojPokusaja > 0) {
+      setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+    }
+  }, 2000);
 
   var handleInputChange = function handleInputChange(event) {
     setLetter(event.target.value);
     var inputDisabled = true;
   };
+
+  function useInterval(callback, delay) {
+    var savedCallback = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(); // Remember the latest callback.
+
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+      savedCallback.current = callback;
+    }, [callback]); // Set up the interval.
+
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+      function tick() {
+        savedCallback.current();
+      }
+
+      if (delay !== null) {
+        var id = setInterval(tick, delay);
+        return function () {
+          return clearInterval(id);
+        };
+      }
+    }, [delay]);
+  }
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     console.log(letter);
@@ -62558,13 +62569,23 @@ var Settings = function Settings() {
     });
 
     if (noviNiz != 0) {
-      setBrojPogodjenih(brojPogodjenih.concat(noviNiz));
-      setBrojPokusaja(brojPokusaja - 1);
+      if (brojPokusaja > 0) {
+        setBrojPogodjenih(brojPogodjenih.concat(noviNiz));
+        setBrojPokusaja(brojPokusaja - 1);
+      } else {
+        alert("Nemate vise pokusaja");
+      }
+
+      console.log(brojPogodjenih);
     }
 
     if (noviNiz.length == 0 && letter != "") {
-      setBrojPromasenih(brojPromasenih + 1);
-      setBrojPokusaja(brojPokusaja - 1);
+      if (brojPokusaja > 0) {
+        setBrojPromasenih(brojPromasenih + 1);
+        setBrojPokusaja(brojPokusaja - 1);
+      } else {
+        alert("Nemate vise pokusaja");
+      }
     }
   }, [letter]);
   var radioButtonDisabled = started ? true : false;
@@ -62613,8 +62634,7 @@ var Settings = function Settings() {
   }, " ", dugme), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "input",
     id: "letter",
-    maxlength: 1,
-    minvalue: 0,
+    maxLength: 1,
     value: letter.toUpperCase(),
     placeholder: "Input letter",
     disabled: inputDisabled,
@@ -62624,9 +62644,7 @@ var Settings = function Settings() {
     brojPogodaka: brojPogodjenih.length,
     brojPromasaja: brojPromasenih,
     brojPreostalih: brojPokusaja
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "letters"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Letters_Letters_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Settings);

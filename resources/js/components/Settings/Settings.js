@@ -1,17 +1,6 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Score from "../../components/Score/Score.js";
 import Letters from "../../components/Letters/Letters.js";
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "reset":
-      return state;
-
-      break;
-    default:
-      return state;
-  }
-}
 
 const Settings = () => {
   const [difficulty, setDifficulty] = useState("easy");
@@ -22,7 +11,7 @@ const Settings = () => {
   const [brojPokusaja,setBrojPokusaja]=useState(26);
   const [brojPromasenih, setBrojPromasenih] = useState(0);
   const [izabranaVrednost, setIzabranaVrednost] = useState([]);
-  const [emptyState, dispatch] = useReducer(reducer, 0);
+
 
   const dugme = started ? "Stop Game" : "Start Game";
   const [nizVrednosti, setNizVrednosti] = useState([
@@ -59,25 +48,54 @@ const Settings = () => {
       console.log("NijePocela");
     } else {
       console.log("Pocela je");
-
-
-      // startGame(numbers);
-      if (difficulty === "easy") {
-        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
-      } else if (difficulty === "medium") {
-        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
-      } else if (difficulty === "hard") {
-        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
-      }
-
-      console.log(nizVrednosti);
     }
   };
+
+  useInterval(() => {
+    if(difficulty === "easy" && brojPokusaja>0){
+    setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+    }
+
+  }, 5000);
+  useInterval(() => {
+    if(difficulty === "medium" && brojPokusaja>0){
+    setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+    }
+
+  }, 3500);
+  useInterval(() => {
+    if(difficulty === "hard" && brojPokusaja>0){
+    setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+    }
+
+  }, 2000);
 
   const handleInputChange = event => {
     setLetter(event.target.value);
      const inputDisabled=true;
   };
+
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
+
+
 
   useEffect(() => {
     console.log(letter);
@@ -87,12 +105,20 @@ const Settings = () => {
       item => letter.toUpperCase() == item.letter && randomNumber == item.id
     );
     if (noviNiz != 0) {
+
+      if(brojPokusaja>0){
       setBrojPogodjenih(brojPogodjenih.concat(noviNiz));
       setBrojPokusaja(brojPokusaja-1)
+    }else{alert("Nemate vise pokusaja")}
+      console.log(brojPogodjenih);
     }
     if(noviNiz.length==0 && letter!=""){
+
+      if(brojPokusaja>0){
       setBrojPromasenih(brojPromasenih+1);
-      setBrojPokusaja(brojPokusaja-1)
+      setBrojPokusaja(brojPokusaja-1);
+
+    }else{alert("Nemate vise pokusaja")}
     }
 
 
@@ -156,8 +182,7 @@ const Settings = () => {
         <input
           className="input"
           id="letter"
-          maxlength={1}
-          minvalue={0}
+          maxLength={1}
           value={letter.toUpperCase()}
           placeholder="Input letter"
           disabled={inputDisabled}
@@ -171,9 +196,7 @@ const Settings = () => {
         brojPreostalih={brojPokusaja}
       />
       </div>
-      <div className="letters">
-      <Letters />
-      </div>
+
     </div>
   );
 };
