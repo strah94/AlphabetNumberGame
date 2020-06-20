@@ -56,6 +56,7 @@ body {
 .letters{
 margin-left: 10px;
 font-size: 15px;
+color:#333EFF;
 display: flex;
 flex-direction: inline
 

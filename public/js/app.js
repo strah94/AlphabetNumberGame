@@ -62126,9 +62126,7 @@ function App() {
     className: "glavniPrikaz"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "settings"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Settings_Settings_js__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "score"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Score_Score_js__WEBPACK_IMPORTED_MODULE_2__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Settings_Settings_js__WEBPACK_IMPORTED_MODULE_3__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "letters"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Letters_Letters_js__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
 }
@@ -62303,7 +62301,7 @@ __webpack_require__.r(__webpack_exports__);
 var Score = function Score(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "score"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "SCORE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "SCORE:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     id: "hits",
     className: "posebniSkor",
     style: {
@@ -62393,14 +62391,9 @@ var Settings = function Settings() {
       brojPromasenih = _useState14[0],
       setBrojPromasenih = _useState14[1];
 
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState16 = _slicedToArray(_useState15, 2),
-      izabranaVrednost = _useState16[0],
-      setIzabranaVrednost = _useState16[1];
-
   var dugme = started ? "Stop Game" : "Start Game";
 
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([{
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([{
     id: 1,
     letter: "A",
     color: ""
@@ -62505,15 +62498,18 @@ var Settings = function Settings() {
     letter: "Z",
     color: ""
   }]),
-      _useState18 = _slicedToArray(_useState17, 2),
-      nizVrednosti = _useState18[0],
-      setNizVrednosti = _useState18[1];
+      _useState16 = _slicedToArray(_useState15, 2),
+      nizVrednosti = _useState16[0],
+      setNizVrednosti = _useState16[1];
 
   var handleButton = function handleButton() {
     setStarted(!started);
 
     if (started === true) {
-      console.log("NijePocela");
+      setBrojPokusaja(26);
+      setBrojPogodjenih([]);
+      setBrojPromasenih(0);
+      setLetter("");
     } else {
       console.log("Pocela je");
     }
@@ -62541,12 +62537,10 @@ var Settings = function Settings() {
   };
 
   function useInterval(callback, delay) {
-    var savedCallback = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(); // Remember the latest callback.
-
+    var savedCallback = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
       savedCallback.current = callback;
-    }, [callback]); // Set up the interval.
-
+    }, [callback]);
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
       function tick() {
         savedCallback.current();

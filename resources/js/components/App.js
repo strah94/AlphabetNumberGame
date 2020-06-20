@@ -7,15 +7,12 @@ import DataContext from  "../DataContext/DataContext.js";
 
 function App() {
   return (
-  
+
     <div className="">
     <div className="glavniPrikaz">
 
     <div className="settings">
       <Settings />
-    </div>
-    <div className="score">
-      <Score />
     </div>
     </div>
    <div className="letters">

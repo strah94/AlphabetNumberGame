@@ -10,7 +10,7 @@ const Settings = () => {
   const [brojPogodjenih, setBrojPogodjenih] = useState([]);
   const [brojPokusaja,setBrojPokusaja]=useState(26);
   const [brojPromasenih, setBrojPromasenih] = useState(0);
-  const [izabranaVrednost, setIzabranaVrednost] = useState([]);
+
 
 
   const dugme = started ? "Stop Game" : "Start Game";
@@ -45,7 +45,11 @@ const Settings = () => {
   const handleButton = () => {
     setStarted(!started);
     if (started === true) {
-      console.log("NijePocela");
+      setBrojPokusaja(26);
+      setBrojPogodjenih([]);
+      setBrojPromasenih(0);
+      setLetter("");
+
     } else {
       console.log("Pocela je");
     }
@@ -78,12 +82,11 @@ const Settings = () => {
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 
-    // Remember the latest callback.
     useEffect(() => {
       savedCallback.current = callback;
     }, [callback]);
 
-    // Set up the interval.
+
     useEffect(() => {
       function tick() {
         savedCallback.current();
@@ -94,7 +97,6 @@ const Settings = () => {
       }
     }, [delay]);
   }
-
 
 
   useEffect(() => {
@@ -110,6 +112,7 @@ const Settings = () => {
       setBrojPogodjenih(brojPogodjenih.concat(noviNiz));
       setBrojPokusaja(brojPokusaja-1)
     }else{alert("Nemate vise pokusaja")}
+
       console.log(brojPogodjenih);
     }
     if(noviNiz.length==0 && letter!=""){
