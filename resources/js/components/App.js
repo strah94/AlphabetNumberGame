@@ -14,11 +14,13 @@ function App() {
     <div className="settings">
       <Settings />
     </div>
-    
+    <div className="score">
+      <Score />
     </div>
-   <div className="letters">
-   <Letters />
-   </div>
+    </div>
+   // <div className="letters">
+   // <Letters />
+   // </div>
 
     </div>
 

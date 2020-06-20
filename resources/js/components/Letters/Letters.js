@@ -41,7 +41,7 @@ const Letters = () => {
 
 
   const glavniPrikaz = letters.map(item => (
-    <div className="pojedinacanBroj">{`${item.letter} (${item.id})`}</div>
+    <div key={item.id} className="pojedinacanBroj">{`${item.letter} (${item.id})`}</div>
   ));
 
   return glavniPrikaz;

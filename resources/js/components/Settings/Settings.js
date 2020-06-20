@@ -1,33 +1,31 @@
-import React, { useState,useEffect,useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Score from "../../components/Score/Score.js";
+import Letters from "../../components/Letters/Letters.js";
 
-function reducer (state,action){
-
-switch (action.type) {
-  case "reset":
+function reducer(state, action) {
+  switch (action.type) {
+    case "reset":
       return state;
 
-    break;
-  default:
-     return state
-
-}
-
-
+      break;
+    default:
+      return state;
+  }
 }
 
 const Settings = () => {
   const [difficulty, setDifficulty] = useState("easy");
   const [started, setStarted] = useState(false);
   const [letter, setLetter] = useState("");
-  const [randomNumber,setRandomNumber]=useState(null);
-  const [brojPogodjenih,setBrojPogodjenih]=useState([]);
-  const [brojPromasenih,setBrojPromasenih]=useState(0);
+  const [randomNumber, setRandomNumber] = useState(null);
+  const [brojPogodjenih, setBrojPogodjenih] = useState([]);
+  const [brojPokusaja,setBrojPokusaja]=useState(26);
+  const [brojPromasenih, setBrojPromasenih] = useState(0);
   const [izabranaVrednost, setIzabranaVrednost] = useState([]);
-  const [emptyState,dispatch]=useReducer(reducer,0);
+  const [emptyState, dispatch] = useReducer(reducer, 0);
 
   const dugme = started ? "Stop Game" : "Start Game";
-  const [nizVrednosti,setNizVrednosti]=useState([
+  const [nizVrednosti, setNizVrednosti] = useState([
     { id: 1, letter: "A", color: "" },
     { id: 2, letter: "B", color: "" },
     { id: 3, letter: "C", color: "" },
@@ -54,65 +52,67 @@ const Settings = () => {
     { id: 24, letter: "X", color: "" },
     { id: 25, letter: "Y", color: "" },
     { id: 26, letter: "Z", color: "" }
-  ])
+  ]);
   const handleButton = () => {
-
     setStarted(!started);
     if (started === true) {
-    console.log('NijePocela')
+      console.log("NijePocela");
     } else {
-        console.log("Pocela je")
+      console.log("Pocela je");
 
-        let numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26];
-        // startGame(numbers);
-        if (difficulty === "easy") {
-           setRandomNumber(Math.floor(Math.random() * numbers.length+1));
-        } else if (difficulty === "medium") {
-           setRandomNumber(Math.floor(Math.random() * numbers.length+1));
-        } else if (difficulty === "hard") {
-           setRandomNumber(Math.floor(Math.random() * numbers.length+1));
-        }
 
-        console.log(nizVrednosti);
+      // startGame(numbers);
+      if (difficulty === "easy") {
+        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+      } else if (difficulty === "medium") {
+        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+      } else if (difficulty === "hard") {
+        setRandomNumber(Math.floor(Math.random() * nizVrednosti.length + 1));
+      }
 
+      console.log(nizVrednosti);
     }
-   }
-
-   const handleInputChange = event => {
-    setLetter(event.target.value);
-
   };
 
+  const handleInputChange = event => {
+    setLetter(event.target.value);
+     const inputDisabled=true;
+  };
 
- useEffect(()=>{
+  useEffect(() => {
+    console.log(letter);
+    console.log(randomNumber);
 
-  console.log(letter);
-  console.log(randomNumber);
-
-   const noviNiz=nizVrednosti.filter(item=>(
-
-     letter==item.letter && randomNumber==item.id
-   ))
-   if(noviNiz!=0){
-   setBrojPogodjenih(brojPogodjenih.concat(noviNiz));
-
- }
-},[letter])
-
+    const noviNiz = nizVrednosti.filter(
+      item => letter.toUpperCase() == item.letter && randomNumber == item.id
+    );
+    if (noviNiz != 0) {
+      setBrojPogodjenih(brojPogodjenih.concat(noviNiz));
+      setBrojPokusaja(brojPokusaja-1)
+    }
+    if(noviNiz.length==0 && letter!=""){
+      setBrojPromasenih(brojPromasenih+1);
+      setBrojPokusaja(brojPokusaja-1)
+    }
 
 
+  }, [letter]);
 
 
   const radioButtonDisabled = started ? true : false;
+  const inputDisabled = started ? false : true;
+
 
   return (
     <div>
+    <div>
       <div className="radioFields">
-        <div className="radio">
+        <div className="radiobtn">
           <label>
             <input
               type="radio"
               value="easy"
+              className="form-control"
               checked={difficulty === "easy"}
               onChange={() => setDifficulty("easy")}
               disabled={radioButtonDisabled}
@@ -120,11 +120,12 @@ const Settings = () => {
             Easy
           </label>
         </div>
-        <div className="radio">
+        <div className="radiobtn">
           <label>
             <input
               type="radio"
               value="easy"
+              className="form-control"
               checked={difficulty === "medium"}
               onChange={() => setDifficulty("medium")}
               disabled={radioButtonDisabled}
@@ -132,11 +133,12 @@ const Settings = () => {
             Medium
           </label>
         </div>
-        <div className="radio">
+        <div className="radiobtn">
           <label>
             <input
               type="radio"
               value="hard"
+              className="form-control"
               checked={difficulty === "hard"}
               onChange={() => setDifficulty("hard")}
               disabled={radioButtonDisabled}
@@ -146,20 +148,32 @@ const Settings = () => {
         </div>
       </div>
 
-      <div id="broj">{started ? randomNumber : 0}</div>
+      <div id="broj" className="broj">{started ? randomNumber : 0}</div>
       <div></div>
 
-      <button onClick={handleButton}> {dugme}</button>
+      <button className=" btn btn-primary" onClick={handleButton}> {dugme}</button>
       <div>
         <input
-          id="location"
-          value={letter}
+          className="input"
+          id="letter"
+          maxlength={1}
+          minvalue={0}
+          value={letter.toUpperCase()}
           placeholder="Input letter"
+          disabled={inputDisabled}
           onChange={handleInputChange}
-
         />
       </div>
-      <Score className="score" brojPogodaka={brojPogodjenih.length} brojPromasaja={brojPromasenih} brojPreostalih="3"/>
+      <Score
+        className="score"
+        brojPogodaka={brojPogodjenih.length}
+        brojPromasaja={brojPromasenih}
+        brojPreostalih={brojPokusaja}
+      />
+      </div>
+      <div className="letters">
+      <Letters />
+      </div>
     </div>
   );
 };
